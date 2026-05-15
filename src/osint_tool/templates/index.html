@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>osint-name</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>osint-name</h1>
+    <p class="legal">
+      Public sources only. For lawful research, journalism, and authorized
+      security work. You are responsible for complying with applicable law
+      (GDPR, CCPA, CFAA, etc.).
+    </p>
+  </header>
+
+  <main>
+    <form id="q" autocomplete="off">
+      <label>Full name<input name="name" placeholder="Jane Doe" /></label>
+      <label>Email<input name="email" type="email" placeholder="jane@example.com" /></label>
+      <label>Username<input name="username" placeholder="janedoe" /></label>
+      <label>Source platform
+        <select name="source_platform">
+          <option value="">(none — broad search)</option>
+          <optgroup label="Supported (public, no login)">
+            <option value="github">GitHub</option>
+            <option value="gitlab">GitLab</option>
+            <option value="reddit">Reddit</option>
+            <option value="hackernews">Hacker News</option>
+            <option value="mastodon">Mastodon</option>
+            <option value="dev">DEV.to</option>
+            <option value="keybase">Keybase</option>
+            <option value="lichess">Lichess</option>
+            <option value="orcid">ORCID</option>
+            <option value="telegram">Telegram (public preview)</option>
+            <option value="tiktok">TikTok (best-effort)</option>
+            <option value="youtube">YouTube</option>
+          </optgroup>
+          <optgroup label="Not supported (login-walled / TOS / no public API)">
+            <option value="" disabled title="Login-walled; blocks unauthenticated access and bans scraper IPs.">Instagram &mdash; login-walled</option>
+            <option value="" disabled title="No public profile pages; users are only reachable inside servers via an authenticated bot.">Discord &mdash; no public profile pages</option>
+            <option value="" disabled title="Requires login; aggressively blocks scrapers.">Facebook &mdash; login-walled</option>
+            <option value="" disabled title="API requires authentication and a paid Developer plan since 2023.">X / Twitter &mdash; paid API only</option>
+            <option value="" disabled title="Requires login; pursues scrapers legally.">LinkedIn &mdash; login-walled</option>
+            <option value="" disabled title="No public profile pages.">Snapchat &mdash; no public profiles</option>
+            <option value="" disabled title="No public user directory.">WhatsApp &mdash; no public directory</option>
+          </optgroup>
+        </select>
+      </label>
+      <label>Phone<input name="phone" placeholder="+14155551234" /></label>
+      <label>Location<input name="location" placeholder="Berlin" /></label>
+      <label>Employer<input name="employer" placeholder="ACME Co." /></label>
+      <button type="submit" id="submit-btn">Assess context</button>
+      <label class="inline">
+        <input type="checkbox" id="keep-form" />
+        <span class="hint">Keep form values after run</span>
+      </label>
+      <span class="hint">At least one field required.</span>
+    </form>
+
+    <div id="error" class="error" hidden></div>
+
+    <section id="preview" hidden>
+      <h2 class="section-h">Proposed research plan
+        <span class="muted" id="ctx-score"></span>
+      </h2>
+      <p class="muted" id="ctx-note"></p>
+      <div id="auto-list"></div>
+      <h3 class="sub-h" id="proposed-h" hidden>Approve any of the following:</h3>
+      <div id="proposed-list"></div>
+      <div class="actions">
+        <button type="button" id="run-btn">Run with selected scopes</button>
+        <button type="button" id="cancel-btn" class="ghost">Cancel</button>
+      </div>
+    </section>
+
+    <section id="status-bar"></section>
+
+    <section id="people">
+      <h2 class="section-h">People found <span id="people-count" class="muted"></span></h2>
+      <div id="people-list"></div>
+    </section>
+
+    <section id="trees" hidden>
+      <h2 class="section-h">Family tree
+        <span class="muted" id="trees-note">Wikidata-based; coverage is limited to notable individuals</span>
+      </h2>
+      <div id="trees-list"></div>
+    </section>
+
+    <section id="followups" hidden>
+      <h2 class="section-h">Follow-up leads
+        <span class="muted">extracted identifiers — click to launch a focused search from each</span>
+      </h2>
+      <div id="followups-list"></div>
+    </section>
+
+    <details id="review-toggle" hidden>
+      <summary>Needs review <span class="muted" id="review-count"></span></summary>
+      <div id="review-list"></div>
+    </details>
+
+    <details id="rejected-toggle" hidden>
+      <summary>Rejected by you <span class="muted" id="rejected-count"></span></summary>
+      <div id="rejected-list"></div>
+    </details>
+
+    <details id="raw-toggle">
+      <summary>Show raw findings by category</summary>
+      <section id="results">
+        <div class="col" data-cat="search"><h2>Search &amp; News</h2><ul></ul></div>
+        <div class="col" data-cat="social"><h2>Social &amp; Profiles</h2><ul></ul></div>
+        <div class="col" data-cat="academic"><h2>Academic &amp; Professional</h2><ul></ul></div>
+        <div class="col" data-cat="breach"><h2>Breach Exposure</h2><ul></ul></div>
+      </section>
+    </details>
+
+    <section id="downloads" hidden>
+      <a id="dl-json" href="#" target="_blank" rel="noopener noreferrer">Download JSON</a>
+      <a id="dl-csv" href="#" target="_blank" rel="noopener noreferrer">Download CSV</a>
+      <button id="purge" class="ghost">Delete this report</button>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

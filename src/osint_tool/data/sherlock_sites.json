@@ -1,0 +1,12 @@
+{
+  "GitHub":      {"url": "https://github.com/{}",                   "url_check": "https://api.github.com/users/{}",            "method": "status_code", "code": 200},
+  "GitLab":      {"url": "https://gitlab.com/{}",                   "url_check": "https://gitlab.com/api/v4/users?username={}", "method": "json_not_empty"},
+  "Reddit":      {"url": "https://www.reddit.com/user/{}",          "url_check": "https://www.reddit.com/user/{}/about.json",  "method": "json_field_not_null", "field": "data"},
+  "HackerNews":  {"url": "https://news.ycombinator.com/user?id={}", "url_check": "https://hacker-news.firebaseio.com/v0/user/{}.json", "method": "json_not_null"},
+  "DEV":         {"url": "https://dev.to/{}",                       "url_check": "https://dev.to/api/users/by_username?url={}", "method": "status_code", "code": 200},
+  "Last.fm":     {"url": "https://www.last.fm/user/{}",             "url_check": "https://www.last.fm/user/{}",                "method": "status_code", "code": 200},
+  "Mastodon-Social": {"url": "https://mastodon.social/@{}",         "url_check": "https://mastodon.social/api/v1/accounts/lookup?acct={}", "method": "status_code", "code": 200},
+  "Lichess":     {"url": "https://lichess.org/@/{}",                "url_check": "https://lichess.org/api/user/{}",            "method": "json_not_empty"},
+  "Chess.com":   {"url": "https://www.chess.com/member/{}",         "url_check": "https://api.chess.com/pub/player/{}",        "method": "status_code", "code": 200},
+  "ProductHunt": {"url": "https://www.producthunt.com/@{}",         "url_check": "https://www.producthunt.com/@{}",            "method": "status_code", "code": 200}
+}

@@ -1,0 +1,55 @@
+[project]
+name = "osint-name"
+version = "0.1.0"
+description = "Local-first OSINT aggregator. Public sources only."
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "httpx>=0.27",
+    "pydantic[email]>=2.9",
+    "selectolax>=0.3.25",
+    "structlog>=24.4",
+    "python-dotenv>=1.0",
+    "phonenumbers>=8.13",
+    "duckduckgo-search>=6.3",
+    "sse-starlette>=2.1",
+    "rapidfuzz>=3.10",
+    "anyascii>=0.3.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "respx>=0.21",
+    "ruff>=0.7",
+]
+
+[project.scripts]
+osint-name = "osint_tool.main:run"
+
+[project.urls]
+Repository = "https://github.com/gahitchi/osint"
+Issues = "https://github.com/gahitchi/osint/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/osint_tool"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "PL"]
+ignore = ["PLR0913", "PLR2004"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
