@@ -11,7 +11,10 @@
 #     small team), or put a reverse-proxy basic-auth in front.
 #   * Some upstream sources (DuckDuckGo, GDELT) rate-limit cloud IPs more
 #     aggressively than residential ones. Expect a degraded recall.
-#   * HIBP_API_KEY is optional. Leave it unset to keep that module disabled.
+#
+# The HIBP module ships disabled by default. If you ever obtain a paid
+# HaveIBeenPwned API key, add HIBP_API_KEY via the Render dashboard
+# (Environment → Add Environment Variable). No Blueprint change needed.
 services:
   - type: web
     name: osint-name
@@ -24,5 +27,3 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.9"
-      - key: HIBP_API_KEY
-        sync: false
