@@ -1,8 +1,8 @@
 """Verify the pipeline only schedules modules whose expansions are approved."""
 
-from osint_tool.config import Config
-from osint_tool.pipeline import Job
-from osint_tool.schema import Query
+from specter.config import Config
+from specter.pipeline import Job
+from specter.schema import Query
 
 
 def _cfg(tmp_path):

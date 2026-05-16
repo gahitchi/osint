@@ -1,5 +1,5 @@
-from osint_tool.filter import classify
-from osint_tool.schema import Finding, Query
+from specter.filter import classify
+from specter.schema import Finding, Query
 
 
 def _f(**kw):

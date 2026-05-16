@@ -21,13 +21,13 @@ class Config:
 
 
 def load_config() -> Config:
-    contact = os.getenv("OSINT_CONTACT_EMAIL") or None
+    contact = os.getenv("SPECTER_CONTACT_EMAIL") or None
     suffix = f"; +{contact}" if contact else ""
     return Config(
-        user_agent=f"osint-name/0.1 (research{suffix})",
+        user_agent=f"specter/0.1 (research{suffix})",
         contact_email=contact,
-        host_rps=float(os.getenv("OSINT_HOST_RPS", "1.0")),
-        max_concurrency=int(os.getenv("OSINT_MAX_CONCURRENCY", "20")),
-        reports_dir=Path(os.getenv("OSINT_REPORTS_DIR", "./reports")).resolve(),
+        host_rps=float(os.getenv("SPECTER_HOST_RPS", "1.0")),
+        max_concurrency=int(os.getenv("SPECTER_MAX_CONCURRENCY", "20")),
+        reports_dir=Path(os.getenv("SPECTER_REPORTS_DIR", "./reports")).resolve(),
         hibp_api_key=os.getenv("HIBP_API_KEY") or None,
     )

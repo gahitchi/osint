@@ -56,7 +56,7 @@ def _full_name_match(blob: str, name_toks: list[str]) -> bool:
     fuzzy near-matches) present as **whole words** within
     NAME_CLUSTER_SPAN characters in `blob`, in any order.
 
-    Variants are computed by `osint_tool.names`; this lifts the substring
+    Variants are computed by `specter.names`; this lifts the substring
     false-positive class ("Jane Doe" no longer matches "Janet Doersen")
     while still tolerating legitimate variants ("Bob Smith" matches
     "Robert Smith").

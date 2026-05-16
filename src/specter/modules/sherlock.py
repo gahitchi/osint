@@ -12,7 +12,7 @@ from .base import BaseModule
 
 
 def _load_sites() -> dict:
-    text = resources.files("osint_tool.data").joinpath("sherlock_sites.json").read_text()
+    text = resources.files("specter.data").joinpath("sherlock_sites.json").read_text()
     return json.loads(text)
 
 

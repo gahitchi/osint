@@ -4,10 +4,10 @@ import httpx
 import pytest
 import respx
 
-from osint_tool.config import Config
-from osint_tool.http import HttpClient
-from osint_tool.modules.wikidata_tree import WikidataTreeModule
-from osint_tool.schema import Query
+from specter.config import Config
+from specter.http import HttpClient
+from specter.modules.wikidata_tree import WikidataTreeModule
+from specter.schema import Query
 
 
 def _cfg(tmp_path):

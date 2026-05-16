@@ -2,13 +2,13 @@ import httpx
 import pytest
 import respx
 
-from osint_tool.config import Config
-from osint_tool.http import HttpClient, RobotsDenied
+from specter.config import Config
+from specter.http import HttpClient, RobotsDenied
 
 
 def _cfg(tmp_path):
     return Config(
-        user_agent="osint-name/0.1 (research)",
+        user_agent="specter/0.1 (research)",
         contact_email=None,
         host_rps=100.0,  # high rps so the limiter doesn't slow tests
         max_concurrency=20,

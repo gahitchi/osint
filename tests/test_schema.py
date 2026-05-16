@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from osint_tool.schema import Query
+from specter.schema import Query
 
 
 def test_at_least_one_required():

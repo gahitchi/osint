@@ -1,6 +1,6 @@
-from osint_tool.config import Config
-from osint_tool.pipeline import Job
-from osint_tool.schema import Finding, Query
+from specter.config import Config
+from specter.pipeline import Job
+from specter.schema import Finding, Query
 
 
 def _cfg(tmp_path):

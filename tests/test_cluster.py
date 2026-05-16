@@ -1,5 +1,5 @@
-from osint_tool.cluster import cluster
-from osint_tool.schema import Finding, Query
+from specter.cluster import cluster
+from specter.schema import Finding, Query
 
 
 def _f(module, url, **kw):

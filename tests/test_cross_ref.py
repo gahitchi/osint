@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 
-from osint_tool.cross_ref import is_duplicate, matches_query_fields, rescore
-from osint_tool.schema import Finding, Query
+from specter.cross_ref import is_duplicate, matches_query_fields, rescore
+from specter.schema import Finding, Query
 
 
 def _f(**kw):

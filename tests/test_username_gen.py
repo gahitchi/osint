@@ -1,4 +1,4 @@
-from osint_tool.username_gen import candidates_from_name
+from specter.username_gen import candidates_from_name
 
 
 def test_basic_first_last():

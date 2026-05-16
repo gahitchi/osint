@@ -1,4 +1,4 @@
-from osint_tool.names import (
+from specter.names import (
     family_first,
     has_token_word_boundary,
     variants,

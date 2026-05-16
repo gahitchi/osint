@@ -1,4 +1,4 @@
-// osint-name — single-page client.
+// Specter — single-page client.
 // Two-phase flow: preview → user approves scopes → run.
 // Session-local state for triage (rejected / confirmed Persons).
 

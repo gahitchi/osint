@@ -1,5 +1,5 @@
-from osint_tool.cohere import evaluate
-from osint_tool.schema import Finding, Person
+from specter.cohere import evaluate
+from specter.schema import Finding, Person
 
 
 def _f(module, url, **kw):

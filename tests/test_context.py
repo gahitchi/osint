@@ -1,5 +1,5 @@
-from osint_tool.context import assess, modules_for_expansions
-from osint_tool.schema import Query
+from specter.context import assess, modules_for_expansions
+from specter.schema import Query
 
 
 def test_thin_name_only():

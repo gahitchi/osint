@@ -17,12 +17,12 @@
 # (Environment → Add Environment Variable). No Blueprint change needed.
 services:
   - type: web
-    name: osint-name
+    name: specter
     runtime: python
     plan: free
     region: oregon
     buildCommand: pip install --upgrade pip && pip install -e .
-    startCommand: uvicorn osint_tool.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn specter.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION

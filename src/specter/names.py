@@ -51,7 +51,7 @@ _FAMILY_FIRST_NAMES = {
 @lru_cache(maxsize=1)
 def _nicknames() -> dict[str, set[str]]:
     raw = json.loads(
-        resources.files("osint_tool.data").joinpath("nicknames.json").read_text()
+        resources.files("specter.data").joinpath("nicknames.json").read_text()
     )
     # Bidirectional: each variant maps back to its canonical, plus all sibling
     # variants. Stored lowercase.

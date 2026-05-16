@@ -4,7 +4,7 @@ import json
 
 from fastapi.testclient import TestClient
 
-from osint_tool import main as main_mod
+from specter import main as main_mod
 
 
 def test_csv_endpoint_serves_rows(tmp_path, monkeypatch):

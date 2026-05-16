@@ -21,7 +21,7 @@ from .schema import Query
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
 BASE = Path(__file__).parent
-app = FastAPI(title="osint-name", version="0.1.0")
+app = FastAPI(title="Specter", version="0.1.0")
 app.mount("/static", StaticFiles(directory=BASE / "static"), name="static")
 INDEX_HTML = BASE / "templates" / "index.html"
 
@@ -204,7 +204,7 @@ async def purge_all() -> JSONResponse:
 
 
 def run() -> None:
-    """Entry point: `osint-name`."""
+    """Entry point: `specter`."""
     import uvicorn  # noqa: PLC0415 - lazy import; only needed when run as a script
 
-    uvicorn.run("osint_tool.main:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run("specter.main:app", host="127.0.0.1", port=8000, reload=False)

@@ -1,5 +1,5 @@
-from osint_tool.schema import Finding, Person, Query
-from osint_tool.tagging import tag_person
+from specter.schema import Finding, Person, Query
+from specter.tagging import tag_person
 
 
 def _f(**kw):

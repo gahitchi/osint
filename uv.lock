@@ -318,54 +318,6 @@ wheels = [
 ]
 
 [[package]]
-name = "osint-name"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "anyascii" },
-    { name = "duckduckgo-search" },
-    { name = "fastapi" },
-    { name = "httpx" },
-    { name = "phonenumbers" },
-    { name = "pydantic", extra = ["email"] },
-    { name = "python-dotenv" },
-    { name = "rapidfuzz" },
-    { name = "selectolax" },
-    { name = "sse-starlette" },
-    { name = "structlog" },
-    { name = "uvicorn", extra = ["standard"] },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "respx" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "anyascii", specifier = ">=0.3.2" },
-    { name = "duckduckgo-search", specifier = ">=6.3" },
-    { name = "fastapi", specifier = ">=0.115" },
-    { name = "httpx", specifier = ">=0.27" },
-    { name = "phonenumbers", specifier = ">=8.13" },
-    { name = "pydantic", extras = ["email"], specifier = ">=2.9" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
-    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.24" },
-    { name = "python-dotenv", specifier = ">=1.0" },
-    { name = "rapidfuzz", specifier = ">=3.10" },
-    { name = "respx", marker = "extra == 'dev'", specifier = ">=0.21" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.7" },
-    { name = "selectolax", specifier = ">=0.3.25" },
-    { name = "sse-starlette", specifier = ">=2.1" },
-    { name = "structlog", specifier = ">=24.4" },
-    { name = "uvicorn", extras = ["standard"], specifier = ">=0.32" },
-]
-provides-extras = ["dev"]
-
-[[package]]
 name = "packaging"
 version = "26.2"
 source = { registry = "https://pypi.org/simple" }
@@ -822,6 +774,54 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/d8/7c/aa021b3ed7c9fce5f16e0a0b4c8897e7970772ba8688754e5813214017d1/selectolax-0.4.9-cp314-cp314t-win_amd64.whl", hash = "sha256:008206609f542cbad133570330e51cb4bb666d532b05111914072673de60f33a", size = 2038829, upload-time = "2026-05-15T08:58:53.904Z" },
     { url = "https://files.pythonhosted.org/packages/c2/d7/525f6a3560d13199d65f1c9f1816ad307d4ed2e1ad05daba08e024fc5364/selectolax-0.4.9-cp314-cp314t-win_arm64.whl", hash = "sha256:7ab014959dcf68a0be71484dc87b8d4002756c979836d1d873ba81302b6bffe0", size = 1943672, upload-time = "2026-05-15T08:58:55.808Z" },
 ]
+
+[[package]]
+name = "specter"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "anyascii" },
+    { name = "duckduckgo-search" },
+    { name = "fastapi" },
+    { name = "httpx" },
+    { name = "phonenumbers" },
+    { name = "pydantic", extra = ["email"] },
+    { name = "python-dotenv" },
+    { name = "rapidfuzz" },
+    { name = "selectolax" },
+    { name = "sse-starlette" },
+    { name = "structlog" },
+    { name = "uvicorn", extra = ["standard"] },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "respx" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "anyascii", specifier = ">=0.3.2" },
+    { name = "duckduckgo-search", specifier = ">=6.3" },
+    { name = "fastapi", specifier = ">=0.115" },
+    { name = "httpx", specifier = ">=0.27" },
+    { name = "phonenumbers", specifier = ">=8.13" },
+    { name = "pydantic", extras = ["email"], specifier = ">=2.9" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.3" },
+    { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.24" },
+    { name = "python-dotenv", specifier = ">=1.0" },
+    { name = "rapidfuzz", specifier = ">=3.10" },
+    { name = "respx", marker = "extra == 'dev'", specifier = ">=0.21" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.7" },
+    { name = "selectolax", specifier = ">=0.3.25" },
+    { name = "sse-starlette", specifier = ">=2.1" },
+    { name = "structlog", specifier = ">=24.4" },
+    { name = "uvicorn", extras = ["standard"], specifier = ">=0.32" },
+]
+provides-extras = ["dev"]
 
 [[package]]
 name = "sse-starlette"

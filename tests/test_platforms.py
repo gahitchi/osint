@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from osint_tool.schema import SUPPORTED_PLATFORMS, UNAVAILABLE_PLATFORMS, Query
+from specter.schema import SUPPORTED_PLATFORMS, UNAVAILABLE_PLATFORMS, Query
 
 
 def test_supported_platform_accepted():
