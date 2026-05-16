@@ -178,6 +178,16 @@ label.inline input { margin: 0; }
 }
 .person .cohere { font-size: .7rem; color: var(--muted); }
 .person .cohere.low { color: var(--medium); }
+.person .summary {
+  margin: .35rem 0 .1rem;
+  padding: .4rem .6rem;
+  border-left: 3px solid var(--accent);
+  background: #161a22;
+  color: #d8dde6;
+  font-size: .82rem;
+  line-height: 1.35;
+  border-radius: 0 4px 4px 0;
+}
 .person .tags {
   display: flex;
   flex-wrap: wrap;

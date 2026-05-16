@@ -31,6 +31,7 @@ const rejectedListEl = $("rejected-list");
 const downloads = $("downloads");
 const dlJson = $("dl-json");
 const dlCsv = $("dl-csv");
+const dlPdf = $("dl-pdf");
 const purgeBtn = $("purge");
 const cols = {
   search: document.querySelector('.col[data-cat="search"] ul'),
@@ -257,6 +258,7 @@ function openStream(jobId) {
     state.es = null;
     dlJson.href = `/reports/${jobId}.json`;
     dlCsv.href = `/reports/${jobId}.csv`;
+    dlPdf.href = `/reports/${jobId}.pdf`;
     downloads.hidden = false;
     setSubmitting(false);
     if (!keepFormChk.checked) form.reset();
@@ -361,6 +363,13 @@ function personCard(p) {
   right.appendChild(actions);
   head.append(name, right);
   card.appendChild(head);
+
+  if (p.summary) {
+    const sum = document.createElement("p");
+    sum.className = "summary";
+    sum.textContent = p.summary;
+    card.appendChild(sum);
+  }
 
   if (p.tags && p.tags.length) {
     const tagsEl = document.createElement("div");

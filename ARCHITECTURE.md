@@ -112,7 +112,9 @@ process.
 | `names.py` | Variant generation (nicknames, ASCII fold, locale swap) + `has_token_word_boundary` matcher with optional Jaro-Winkler fuzzy fallback. |
 | `cluster.py` | Union-find over strong identity signals (ORCID, GitHub login, email, gravatar). |
 | `cohere.py` | Four coherence rules: `name_mismatch`, `geo_outlier`, `century_gap`, `domain_outlier`. |
+| `interpret.py` | Deterministic one-sentence summary per Person (strength label + why-clause). |
 | `tagging.py` | Deterministic tag assignment per Person (`academic`, `developer`, `@Stanford`, `has-email`, `verified:github`, …). |
+| `report_pdf.py` | reportlab-based PDF renderer: cover page, methodology box, legal box, one section per Person. |
 | `extract.py` | Regex extractors for emails (incl. obfuscated `foo (at) bar dot com`), phones (via `phonenumbers`), URLs. |
 | `cross_ref.py` | Cross-referencing across signals; used by clustering. |
 | `username_gen.py` | Username variants from a name (used by Sherlock and code_hosts modules). |
@@ -164,14 +166,19 @@ The pipeline runs inside `pipeline.Job.run()`:
 5. **Coherence.** Each Person is run through `cohere.check`. Findings
    that contradict the cluster's modal signals are flagged with a
    reason and moved to the Needs-review bucket.
-6. **Tag.** `tagging.assign` walks each Person's Findings and produces
+6. **Interpret.** `interpret.interpret` synthesizes one sentence per
+   Person from the strength of the strong signals, the maximum finding
+   confidence, the number of independent sources, and any coherence
+   flags. Stored on `Person.summary`.
+7. **Tag.** `tagging.assign` walks each Person's Findings and produces
    human-readable tags from deterministic rules
    (`@institution`, `developer`, `prolific-author`, `has-email`, …).
-7. **Compute follow-ups.** Walk Findings for novel emails / github
+8. **Compute follow-ups.** Walk Findings for novel emails / github
    logins / ORCID IDs and emit a follow-up lead per pivot.
-8. **Emit.** SSE events in order: `status`, `finding` (many),
+9. **Emit.** SSE events in order: `status`, `finding` (many),
    `people` (full snapshot), `trees`, `followups`, `done`.
-   Final report is written to `reports/{job_id}.json`.
+   Final report is written to `reports/{job_id}.json` and can be
+   re-rendered as PDF on demand via `GET /reports/{job_id}.pdf`.
 
 ---
 

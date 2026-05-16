@@ -16,6 +16,7 @@ from sse_starlette.sse import EventSourceResponse
 from .config import load_config
 from .context import EXPANSION_CATALOG, assess
 from .pipeline import Job
+from .report_pdf import render_pdf
 from .schema import Query
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -181,6 +182,20 @@ async def report_csv(job_id: str) -> Response:
         content=buf.getvalue(),
         media_type="text/csv",
         headers={"Content-Disposition": f'attachment; filename="{job_id}.csv"'},
+    )
+
+
+@app.get("/reports/{job_id}.pdf")
+async def report_pdf(job_id: str) -> Response:
+    p = _cfg.reports_dir / f"{job_id}.json"
+    if not p.exists():
+        raise HTTPException(status_code=404)
+    doc = json.loads(p.read_text())
+    pdf_bytes = render_pdf(doc)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{job_id}.pdf"'},
     )
 
 

@@ -8,15 +8,18 @@ from specter import main as main_mod
 
 
 def test_csv_endpoint_serves_rows(tmp_path, monkeypatch):
-    # Point the reports dir at tmp_path and write a small fixture.
-    main_mod._cfg = type(main_mod._cfg)(  # type: ignore[call-arg]
-        user_agent=main_mod._cfg.user_agent,
-        contact_email=main_mod._cfg.contact_email,
-        host_rps=main_mod._cfg.host_rps,
-        max_concurrency=main_mod._cfg.max_concurrency,
+    # Point the reports dir at tmp_path and write a small fixture. Restore
+    # the original cfg via monkeypatch so we don't leak state to other tests.
+    original = main_mod._cfg
+    swapped = type(original)(  # type: ignore[call-arg]
+        user_agent=original.user_agent,
+        contact_email=original.contact_email,
+        host_rps=original.host_rps,
+        max_concurrency=original.max_concurrency,
         reports_dir=tmp_path,
-        hibp_api_key=main_mod._cfg.hibp_api_key,
+        hibp_api_key=original.hibp_api_key,
     )
+    monkeypatch.setattr(main_mod, "_cfg", swapped)
     report = {
         "job_id": "abc",
         "people": [{

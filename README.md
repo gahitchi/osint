@@ -49,11 +49,14 @@ curl -sX POST http://127.0.0.1:8000/reports/purge-all
 3. Hit **Run with selected scopes**. The tool POSTs `/search`, then streams
    findings, person updates, the coherence pass, and any follow-up leads
    over Server-Sent Events.
-4. People cards render at the top with tags and contact details. Findings
-   the coherence pass flagged as contradicting their cluster move to
-   **Needs review** at the bottom (nothing is silently dropped).
-5. `Download JSON` / `Download CSV` give you the full report including the
-   per-cluster `CoherenceReport` with reasons for every flag.
+4. People cards render at the top with a one-line **interpretation**
+   ("Strong match. Shared ORCID + email; corroborated across 3 sources."),
+   tags, and contact details. Findings the coherence pass flagged as
+   contradicting their cluster move to **Needs review** at the bottom
+   (nothing is silently dropped).
+5. `Download JSON` / `Download CSV` / `Download PDF` give you the full
+   report — the PDF includes a cover page, methodology box, legal box,
+   and one styled page per Person ready to print or hand off.
 
 ---
 
@@ -95,6 +98,16 @@ its variants:
 **positional cluster** in the source text. This blocks the classic
 substring trap where "Jane Doe" matches a page mentioning Jane Smith
 in one paragraph and John Doe in another.
+
+### Interpretation
+
+Once coherence has run, `interpret.py` collapses each Person into a
+single deterministic sentence — strength label (*Strong / Moderate /
+Weak / Tentative match*) plus a why-clause derived from the same signals
+the rest of the pipeline already computed (which strong signals
+corroborated, how many independent sources, which coherence rules
+fired). There is no LLM in this path; the output is reproducible from
+the JSON report alone.
 
 ### Coherence
 

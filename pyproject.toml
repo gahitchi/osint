@@ -18,6 +18,7 @@ dependencies = [
     "sse-starlette>=2.1",
     "rapidfuzz>=3.10",
     "anyascii>=0.3.2",
+    "reportlab>=4.2",
 ]
 
 [project.optional-dependencies]

@@ -157,6 +157,7 @@ class Person(BaseModel):
     finding_keys: list[tuple[str, str]] = Field(default_factory=list)
     coherence: float = Field(default=1.0, ge=0.0, le=1.0)
     incoherent_finding_keys: list[tuple[str, str]] = Field(default_factory=list)
+    summary: str = ""  # deterministic one-line interpretation; filled by interpret.py
 
 
 # ---- v2: expansion taxonomy + context assessment ----

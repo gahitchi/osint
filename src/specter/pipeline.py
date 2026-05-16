@@ -17,6 +17,7 @@ from .context import modules_for_expansions
 from .cross_ref import is_duplicate, rescore
 from .filter import classify
 from .http import HttpClient
+from .interpret import interpret
 from .modules import all_modules
 from .schema import CoherenceReport, Finding, ModuleStatus, Person, Query
 from .tagging import tag_person
@@ -123,7 +124,7 @@ class Job:
 
     def _apply_coherence(self) -> None:
         """Final pass: compute coherence per Person, mark incoherent finding
-        keys, and record the report for persistence."""
+        keys, record the report, and synthesize a one-line interpretation."""
         keys_to_finding = {f.dedupe_key(): f for f in self.findings}
         for p in self.people:
             owned = [keys_to_finding[k] for k in p.finding_keys if k in keys_to_finding]
@@ -133,6 +134,7 @@ class Job:
             p.incoherent_finding_keys = sorted(
                 {fl.finding_key for fl in report.flags}, key=lambda t: (t[0], t[1])
             )
+            p.summary = interpret(p, owned, report)
 
     async def _emit_people_if_changed(self) -> None:
         sig = json.dumps([p.model_dump() for p in self.people], sort_keys=True)
