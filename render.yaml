@@ -1,0 +1,28 @@
+# Render.com Blueprint.
+#
+# Caveats before deploying:
+#   * Free tier instances spin down after ~15 min idle. Long-running OSINT
+#     jobs that are mid-stream when that happens will be killed and their
+#     SSE connection will drop. Reports under `./reports/` are also
+#     ephemeral on free instances.
+#   * The deployed URL is public. The per-expansion approval gate is
+#     enforced client-side; if you publish the URL, anyone can run searches
+#     from your Render IP. Keep it private (only share with yourself / a
+#     small team), or put a reverse-proxy basic-auth in front.
+#   * Some upstream sources (DuckDuckGo, GDELT) rate-limit cloud IPs more
+#     aggressively than residential ones. Expect a degraded recall.
+#   * HIBP_API_KEY is optional. Leave it unset to keep that module disabled.
+services:
+  - type: web
+    name: osint-name
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install --upgrade pip && pip install -e .
+    startCommand: uvicorn osint_tool.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: HIBP_API_KEY
+        sync: false

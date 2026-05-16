@@ -101,3 +101,16 @@ uv run pytest -q       # all tests
 uv run ruff check .    # lint
 uv run ruff format .   # format
 ```
+
+## Deploy to Render
+
+A `render.yaml` Blueprint is checked in. From the Render dashboard, **New +
+→ Blueprint**, point at this repo, and Render reads the file: free-tier
+Python web service, `pip install -e .`, `uvicorn` on `$PORT`.
+
+Read the caveats at the top of `render.yaml` before publishing the URL.
+Two that bite first:
+
+- Free instances **spin down after ~15 min idle** — in-flight SSE jobs die.
+- The deployed URL is **public**; the approval gate is client-side. Either
+  keep the URL to yourself or put basic-auth in front of it.
