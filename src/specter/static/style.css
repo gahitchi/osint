@@ -210,6 +210,50 @@ label.inline input { margin: 0; }
   color: var(--muted);
 }
 .person details summary { cursor: pointer; }
+.person details.siggraph { margin-top: .35rem; }
+.person details.siggraph summary {
+  color: var(--accent);
+  font-size: .75rem;
+}
+.siggraph-svg {
+  display: block;
+  margin-top: .5rem;
+  width: 100%;
+  height: auto;
+  background: #11141a;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.siggraph-svg .edges line.edge {
+  stroke: #3a4252;
+  stroke-width: 1.2;
+}
+.siggraph-svg .node-person rect {
+  fill: #1a2c2a;
+  stroke: var(--accent);
+  stroke-width: 1.2;
+}
+.siggraph-svg .node-signal rect {
+  fill: #1b2030;
+  stroke: #3a4252;
+  stroke-width: 1;
+}
+.siggraph-svg .node-finding rect {
+  fill: #161a22;
+  stroke: #2a2f3a;
+  stroke-width: 1;
+}
+.siggraph-svg text.label {
+  fill: var(--fg);
+  font-size: 11px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  pointer-events: none;
+}
+.siggraph-svg .node-person text.label {
+  fill: var(--accent);
+  font-weight: 600;
+}
+.siggraph-svg text.label.small { font-size: 10px; fill: var(--muted); }
 .person ul { list-style: none; padding: .5rem 0 0; margin: 0; }
 .person ul li { padding: .3rem 0; border-bottom: 1px dashed var(--line); }
 .person ul li a { color: var(--fg); text-decoration: none; }

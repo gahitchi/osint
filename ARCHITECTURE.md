@@ -141,8 +141,8 @@ Each module subclasses `modules.base.Module` and yields `Finding` objects.
 | File | Responsibility |
 |---|---|
 | `templates/index.html` | Single page: query form, preview/approval panel, People list, Needs-review panel, Trees, Follow-ups, downloads. |
-| `static/app.js` | Vanilla JS — no build step. Two-phase flow; session-local `state` (rejected / confirmed sets); SSE consumer. |
-| `static/style.css` | Risk pills, generation-row tree styling, restrained palette. |
+| `static/app.js` | Vanilla JS — no build step. Two-phase flow; session-local `state` (rejected / confirmed sets); SSE consumer; per-Person signal-graph SVG renderer (Person → strong-signals → corroborating findings). |
+| `static/style.css` | Risk pills, generation-row tree styling, signal-graph node/edge styling, restrained palette. |
 
 ---
 

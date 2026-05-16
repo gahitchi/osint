@@ -51,9 +51,11 @@ curl -sX POST http://127.0.0.1:8000/reports/purge-all
    over Server-Sent Events.
 4. People cards render at the top with a one-line **interpretation**
    ("Strong match. Shared ORCID + email; corroborated across 3 sources."),
-   tags, and contact details. Findings the coherence pass flagged as
-   contradicting their cluster move to **Needs review** at the bottom
-   (nothing is silently dropped).
+   tags, and contact details. A collapsible **signal graph** per card
+   visualises which independent sources corroborate which identity
+   signal — the triangulation behind the interpretation. Findings the
+   coherence pass flagged as contradicting their cluster move to
+   **Needs review** at the bottom (nothing is silently dropped).
 5. `Download JSON` / `Download CSV` / `Download PDF` give you the full
    report — the PDF includes a cover page, methodology box, legal box,
    and one styled page per Person ready to print or hand off.

@@ -386,6 +386,17 @@ function personCard(p) {
     card.appendChild(tagsEl);
   }
 
+  const graph = signalGraphSVG(p, finds);
+  if (graph) {
+    const det = document.createElement("details");
+    det.className = "siggraph";
+    const sum = document.createElement("summary");
+    sum.textContent = "Show signal graph";
+    det.appendChild(sum);
+    det.appendChild(graph);
+    card.appendChild(det);
+  }
+
   if (contacts.length) {
     const block = document.createElement("div");
     block.className = "contact-block";
@@ -435,6 +446,173 @@ function personCard(p) {
     card.appendChild(det);
   }
   return card;
+}
+
+// ---- Signal graph -------------------------------------------------
+//
+// A small 3-column SVG (Person -> strong-signal nodes -> Findings) that
+// makes the basis of a cluster visible at a glance: which independent
+// sources corroborate which identity signal. Mirrors the logic of
+// interpret.py so the visual confirms the summary sentence.
+//
+// Returns null if the cluster is trivial (no strong signals).
+
+const STRONG_SIGNAL_KEYS = [
+  "orcid", "github_login", "email", "gravatar_hash",
+  "wikidata_qid", "openalex_id", "doi_author_pair",
+];
+const SIGNAL_LABEL = {
+  orcid: "ORCID",
+  github_login: "GitHub",
+  email: "email",
+  gravatar_hash: "gravatar",
+  wikidata_qid: "Wikidata",
+  openalex_id: "OpenAlex",
+  doi_author_pair: "co-author DOI",
+};
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+function svgEl(tag, attrs = {}) {
+  const el = document.createElementNS(SVG_NS, tag);
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+  return el;
+}
+
+function truncate(s, n) {
+  if (!s) return "";
+  return s.length <= n ? s : s.slice(0, n - 1) + "…";
+}
+
+function signalGraphSVG(person, findings) {
+  // Collect strong-signal nodes: one per distinct (sigType, value) pair
+  // that's present on the Person.
+  const signalNodes = [];
+  for (const k of STRONG_SIGNAL_KEYS) {
+    const values = (person.signals || {})[k] || [];
+    for (const v of values) signalNodes.push({ key: k, value: v });
+  }
+  if (signalNodes.length === 0) return null;
+
+  // Which findings carry each signal value? Build an adjacency list.
+  // Keyed by the signal index → array of finding indices.
+  const findingNodes = findings.map((f) => ({
+    finding: f,
+    label: f.module,
+  }));
+  let adj = signalNodes.map(() => []);
+  signalNodes.forEach((s, si) => {
+    findingNodes.forEach((fn, fi) => {
+      const vals = (fn.finding.signals && fn.finding.signals[s.key]) || [];
+      if (vals.includes(s.value)) adj[si].push(fi);
+    });
+  });
+
+  // Drop orphan signals (no coherent finding carries them — happens when
+  // the supporting finding was moved to Needs review). Keeps the graph
+  // tight and consistent with the rest of the card's filtered view.
+  const keep = adj.map((a) => a.length > 0);
+  const filteredSignals = signalNodes.filter((_, i) => keep[i]);
+  adj = adj.filter((_, i) => keep[i]);
+  signalNodes.length = 0;
+  signalNodes.push(...filteredSignals);
+  if (signalNodes.length === 0) return null;
+
+  // Geometry
+  const W = 580;
+  const ROW_H = 30;
+  const N_ROWS = Math.max(signalNodes.length, findingNodes.length, 1);
+  const H = Math.max(120, N_ROWS * ROW_H + 30);
+  const PAD = 15;
+  const COL_X = { person: 60, signal: 250, finding: 470 };
+  const COL_W = { person: 90, signal: 200, finding: 180 };
+
+  const svg = svgEl("svg", {
+    width: "100%",
+    viewBox: `0 0 ${W} ${H}`,
+    class: "siggraph-svg",
+  });
+
+  // Edge layer first so nodes draw on top
+  const edgeLayer = svgEl("g", { class: "edges" });
+  svg.appendChild(edgeLayer);
+  const nodeLayer = svgEl("g", { class: "nodes" });
+  svg.appendChild(nodeLayer);
+
+  // Position helpers
+  const personY = H / 2;
+  const colYs = (count) => {
+    const slot = (H - PAD * 2) / Math.max(count, 1);
+    return Array.from({ length: count }, (_, i) => PAD + slot * (i + 0.5));
+  };
+  const sigYs = colYs(signalNodes.length);
+  const findYs = colYs(findingNodes.length);
+
+  // Person node
+  const personGroup = svgEl("g", { class: "node node-person" });
+  personGroup.appendChild(svgEl("rect", {
+    x: COL_X.person, y: personY - 14, width: COL_W.person, height: 28,
+    rx: 14, ry: 14,
+  }));
+  const personText = svgEl("text", {
+    x: COL_X.person + COL_W.person / 2,
+    y: personY + 4,
+    "text-anchor": "middle",
+    class: "label",
+  });
+  personText.textContent = truncate(person.display_name || "?", 14);
+  personGroup.appendChild(personText);
+  nodeLayer.appendChild(personGroup);
+
+  // Signal nodes
+  signalNodes.forEach((s, i) => {
+    const y = sigYs[i];
+    const g = svgEl("g", { class: "node node-signal" });
+    g.appendChild(svgEl("rect", {
+      x: COL_X.signal, y: y - 12, width: COL_W.signal, height: 24, rx: 4, ry: 4,
+    }));
+    const t = svgEl("text", {
+      x: COL_X.signal + 8, y: y + 4, class: "label",
+    });
+    t.textContent = `${SIGNAL_LABEL[s.key] || s.key}: ${truncate(String(s.value), 22)}`;
+    g.appendChild(t);
+    nodeLayer.appendChild(g);
+
+    // Person → signal edge
+    edgeLayer.appendChild(svgEl("line", {
+      x1: COL_X.person + COL_W.person, y1: personY,
+      x2: COL_X.signal, y2: y,
+      class: "edge",
+    }));
+  });
+
+  // Finding nodes
+  findingNodes.forEach((fn, i) => {
+    const y = findYs[i];
+    const g = svgEl("g", { class: "node node-finding" });
+    g.appendChild(svgEl("rect", {
+      x: COL_X.finding, y: y - 11, width: COL_W.finding, height: 22, rx: 3, ry: 3,
+    }));
+    const t = svgEl("text", {
+      x: COL_X.finding + 8, y: y + 4, class: "label small",
+    });
+    t.textContent = truncate(fn.label, 22);
+    g.appendChild(t);
+    nodeLayer.appendChild(g);
+  });
+
+  // Signal → finding edges
+  signalNodes.forEach((_, si) => {
+    const sy = sigYs[si];
+    for (const fi of adj[si]) {
+      edgeLayer.appendChild(svgEl("line", {
+        x1: COL_X.signal + COL_W.signal, y1: sy,
+        x2: COL_X.finding, y2: findYs[fi],
+        class: "edge",
+      }));
+    }
+  });
+
+  return svg;
 }
 
 // ---- Family trees ----
